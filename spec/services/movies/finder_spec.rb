@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe Movies::Finder do
   let(:moviedb_payload) do
-    { body: YAML.load_file("#{Rails.root}/spec/services/movies/moviedb_payload.json") }
+    YAML.load_file("#{Rails.root}/spec/services/movies/moviedb_payload.json")
   end
 
   before do
