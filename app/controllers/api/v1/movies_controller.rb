@@ -8,7 +8,7 @@ module Api
         presenter = MoviePresenter::Create.new(params: params)
         return render presenter.empty_movie_id if presenter.missing_movie_id?
 
-        render json: { message: "Movie created" }, status: 200
+        render presenter.create_movie
       end
 
       private
