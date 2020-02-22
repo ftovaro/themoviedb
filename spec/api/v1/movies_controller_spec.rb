@@ -15,14 +15,20 @@ describe Api::V1::MoviesController do
         expect_any_instance_of(Api::V1::MoviesController).to receive(:authorized_token).and_return("sampletoken")
       end
 
-      it "returns 200" do
-        post "/api/v1/movies", params: {}, headers: { "X-Api-Key": "sampletoken" }
+      it "sends a movie_id and returns 200" do
+        post "/api/v1/movies", params: { body: { movie_id: 1 } }, headers: { "X-Api-Key": "sampletoken" }
         expect(response).to have_http_status(:ok)
       end
+    end
 
-      it "sends a tmdb_id and returns 200" do
-        post "/api/v1/movies", params: { movie: { tmdb_id: 1 } }, headers: { "X-Api-Key": "sampletoken" }
-        expect(response).to have_http_status(:ok)
+    context "when send an invalid payload" do
+      before(:each) do
+        expect_any_instance_of(Api::V1::MoviesController).to receive(:authorized_token).and_return("sampletoken")
+      end
+
+      it "does not send a movie_id and returns 422" do
+        post "/api/v1/movies", params: { body: {} }, headers: { "X-Api-Key": "sampletoken" }
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
   end

@@ -5,6 +5,9 @@ module Api
       before_action :authenticate_token
 
       def create
+        presenter = MoviePresenter::Create.new(params: params)
+        return render presenter.empty_movie_id if presenter.missing_movie_id?
+
         render json: { message: "Movie created" }, status: 200
       end
 
@@ -12,7 +15,7 @@ module Api
 
       def authenticate_token
         token = request.headers["X-Api-Key"]
-        render json: { status: "401", title: "Unauthorized" }, status: :unauthorized if token != authorized_token
+        render json: { status: "401", message: "Unauthorized" }, status: :unauthorized if token != authorized_token
       end
 
       def authorized_token
