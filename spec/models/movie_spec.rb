@@ -1,5 +1,12 @@
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.describe Movie, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe Movie do
+  subject(:movie) { create(:movie) }
+
+  context "basic unit tests" do
+    it "has a title" do
+      subject.title = "test"
+      expect(subject.title).to eq("test")
+    end
+  end
 end
