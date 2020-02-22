@@ -37,6 +37,17 @@ describe Api::V1::MoviesController do
         expect(JSON.parse(response.body).dig("movie", "vote_count")).to eq(11664)
         expect(Movie.count).to eq(1)
       end
+
+      it "sends a repeated movie_id" do
+        movie.save
+        post "/api/v1/movies", params: { body: { movie_id: 862 } }, headers: { "X-Api-Key": "sampletoken" }
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(JSON.parse(response.body).dig("message")).to eq("Movie already exists")
+        expect(JSON.parse(response.body).dig("movie", "tmdb_id")).to eq(862)
+        expect(JSON.parse(response.body).dig("movie", "title")).to eq("Toy Story")
+        expect(JSON.parse(response.body).dig("movie", "vote_count")).to eq(11664)
+        expect(Movie.count).to eq(1)
+      end
     end
 
     context "when send an invalid payload" do

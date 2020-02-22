@@ -7,6 +7,7 @@ module Api
       def create
         presenter = MoviePresenter::Create.new(params: params)
         return render presenter.empty_movie_id if presenter.missing_movie_id?
+        return render presenter.movie_found if presenter.movie_already_exists?
 
         render presenter.create_movie
       end
