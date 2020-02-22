@@ -16,7 +16,7 @@ module Api
       end
 
       def authorized_token
-        "SMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+        Rails.application.credentials[:app_token]
       end
     end
   end
