@@ -5,8 +5,10 @@ module Api
       before_action :authenticate_token
 
       def index
-        # name,​ overview,​ ​or​ vote count
-        render json: { status: "200", message: "ok" }, status: :ok
+        presenter = SearchPresenter::Index.new(params: params)
+        return render presenter.no_params_requested if presenter.empty_params?
+
+        render presenter.find_movies
       end
     end
   end
