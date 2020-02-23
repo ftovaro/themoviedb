@@ -2,7 +2,11 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   namespace :api do
     namespace :v1 do
-      resources :movies, only: :create
+      resources :movies, only: :create do
+        collection do
+          get "/search", to: "search#index", as: :search
+        end
+      end
     end
   end
 end
