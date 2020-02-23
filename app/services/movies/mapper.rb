@@ -13,6 +13,7 @@ module Movies
       movie.vote_count = vote_count
       movie.poster_path = poster_path
       movie.release_date = release_date
+      movie.tmdb_id = tmdb_id
       movie
     end
 
@@ -34,6 +35,10 @@ module Movies
 
     def release_date
       payload.dig("release_date")
+    end
+
+    def tmdb_id
+      payload.dig("id")
     end
   end
 end

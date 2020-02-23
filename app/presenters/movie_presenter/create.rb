@@ -27,7 +27,7 @@ module MoviePresenter
       payload = Movies::Finder.new(tmdb_id: body.dig("movie_id")).process
       return { json: { status: "422", message: "Must provide a movie id" }, status: :unprocessable_entity } if payload.blank?
 
-      movie = Movies::Mapper.new(payload: payload).process
+      movie = Movies::Mapper.new(payload: JSON.parse(payload)).process
 
       if movie.save
         { json: { status: "200", message: "Movie created", movie: movie.as_json }, status: :ok }

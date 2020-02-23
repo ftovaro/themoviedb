@@ -1,0 +1,15 @@
+// Have to use !important for colors to override vuetify
+
+.main-wrapper {
+  padding: 5px;
+
+  .error {
+    &--text {
+      color: red !important;
+    }
+  }
+}
+
+.primary {
+  background-color: #1867c0 !important;
+}

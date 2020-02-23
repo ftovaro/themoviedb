@@ -29,5 +29,13 @@ Movie.create(
       release_date: "2019-11-20",
       tmdb_id: 330457
     },
+    {
+      title: "The Predator",
+      overview: "When a kid accidentally triggers the universe's most lethal hunters' return to Earth, only a ragtag crew of ex-soldiers and a disgruntled female scientist can prevent the end of the human race.",
+      vote_count: 2479,
+      poster_path: "/wMq9kQXTeQCHUZOG4fAe5cAxyUA.jpg",
+      release_date: "2018-09-05",
+      tmdb_id: 346910
+    },
   ]
 )
