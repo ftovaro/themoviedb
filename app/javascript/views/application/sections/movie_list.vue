@@ -2,7 +2,7 @@
 <template>
   <section>
     <div class="row no-gutters">
-      <v-form ref="form" class="col-3" lazy-validation>
+      <v-form ref="form" class="col-2" lazy-validation>
         <v-text-field
           v-model="movieId"
           label="Movie ID"
@@ -12,6 +12,30 @@
         ></v-text-field>
       </v-form>
       <v-btn @click="addMovie" class="primary col-1 mx-5">Agregar</v-btn>
+    </div>
+    <div class="row no-gutters">
+      <v-form ref="form" class="col-12 row no-gutters">
+        <v-text-field
+          v-model="movieTitle"
+          label="Movie Title"
+          class="p-0 col-2 mx-2"
+        ></v-text-field>
+        <v-text-field
+          v-model="movieOverview"
+          label="Movie Overview"
+          class="p-0 col-2 mx-2"
+        ></v-text-field>
+        <v-text-field
+          v-model="movieVoteCount"
+          label="Movie Vote Count"
+          class="p-0 col-2 mx-2"
+          type="number"
+        ></v-text-field>
+        <v-btn @click="searchMovie" class="secondary col-1 mx-5">Buscar</v-btn>
+      </v-form>
+    </div>
+    <div class="row no-gutters">
+      <v-btn @click="init" class="warning col-1 mx-5">Reset</v-btn>
     </div>
     <div class="row">
       <movie-card v-for="movie in movies" class="col"
@@ -32,9 +56,6 @@
   import moviesService from "../services/movies_service";
   import movieCard from "../components/movie_card";
 
-  // import moment from 'moment';
-  // moment.locale('es');
-
   export default {
     name: 'movie-list',
     components: {
@@ -47,6 +68,9 @@
     data: () => ({
       movies: [],
       movieId: '',
+      movieTitle: '',
+      movieOverview: '',
+      movieVoteCount: '',
       MovieIdRules: [
         v => !!v || 'Movie ID is required'
       ],
@@ -83,6 +107,20 @@
             console.log(error);
           })
         }
+      },
+      searchMovie(){
+        const url = this.railsRoutes.search_api_v1_movies_path({format: 'json'});
+        moviesService.searchMovie(url, { title: this.movieTitle, overview: this.movieOverview , vote_count: this.movieVoteCount })
+        .then((response) => {
+          if (response.data.status == 200) {
+            this.$parent.open(`Movies found: ${response.data.movies.length}`, "success");
+            this.movies = response.data.movies;
+          }
+        })
+        .catch((error) => {
+          this.$parent.open(error.response.data.message, "error");
+          console.log(error);
+        })
       }
     }
   }
