@@ -2,7 +2,12 @@ module Api
   module V1
     class MoviesController < Api::BaseController
       skip_before_action :verify_authenticity_token
-      before_action :authenticate_token
+      before_action :authenticate_token, only: :create
+
+      def index
+        movies = Movie.all
+        render json: { status: "200", message: "Loaded movies", movies: movies }, status: :ok
+      end
 
       def create
         presenter = MoviePresenter::Create.new(params: params)

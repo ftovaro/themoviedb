@@ -1,12 +1,19 @@
 <! Template >
 <template>
-  <section class="">
+  <section class="row">
+    <div class="col">
+      ddd
+    </div>
+    <div class="col">
+      ppp
+    </div>
   </section>
 </template>
 
 <! Script >
 <script>
-  // import Routes from 'routes.js.erb';
+  import Routes from 'routes.js.erb';
+  import moviesService from "../services/movies_service";
 
   // import moment from 'moment';
   // moment.locale('es');
@@ -15,11 +22,19 @@
     name: 'movie-list',
     components: {},
     props: {},
-    data: () => ({}),
+    mounted() {
+      this.init();
+    },
+    data: () => ({
+      init(){
+        const url = this.railsRoutes.api_v1_movies_path({format: 'json'});
+        moviesService.loadMovies(url);
+      }
+    }),
     computed: {
-      // railsRoutes() {
-      //   return Routes;
-      // },
+      railsRoutes() {
+        return Routes;
+      },
     },
     beforeMount(){},
     methods: {}
