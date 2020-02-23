@@ -1,11 +1,15 @@
 import Vue from 'vue/dist/vue.esm';
-import vuetify from 'vuetify'
-import 'vuetify/dist/vuetify.min.css'
+import Vuetify from 'vuetify'
+import VueToast from 'vue-toast-notification';
 
+import 'vuetify/dist/vuetify.min.css'
+import 'vue-toast-notification/dist/index.css';
 
 import movieList from './sections/movie_list.vue';
 
-Vue.use(vuetify)
+Vue.use(VueToast);
+Vue.use(Vuetify)
+
 /* Init Vue App */
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -15,6 +19,15 @@ document.addEventListener('DOMContentLoaded', () => {
     components: {
       'movie-list': movieList
     },
-    methods: {}
+    methods: {
+      open(message, type) {
+          this.$toast.open({
+              message: message,
+              type: type,
+              duration: 5000,
+              dismissible: true
+          })
+      }
+    }
   });
 });

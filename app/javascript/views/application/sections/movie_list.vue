@@ -72,10 +72,14 @@
         if (this.$refs.form.validate()) {
           const url = this.railsRoutes.api_v1_movies_path({format: 'json'});
           moviesService.createMovie(url, { body: { movie_id: this.movieId }})
-          .then((data) => {
-            this.movies.push(data.movie);
+          .then((response) => {
+            if (response.data.status == 200) {
+              this.$parent.open("Movie created", "success");
+              this.movies.push(response.data.movie);
+            }
           })
           .catch((error) => {
+            this.$parent.open(error.response.data.message, "error");
             console.log(error);
           })
         }

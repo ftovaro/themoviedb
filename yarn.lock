@@ -6399,6 +6399,10 @@ vue-template-es2015-compiler@^1.9.0:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
 
+vue-toast-notification@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/vue-toast-notification/-/vue-toast-notification-0.0.3.tgz#be2bd4b85cc44b935e912e2ebcc6436f614dc3ea"
+
 vue@^2.6.11:
   version "2.6.11"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.11.tgz#76594d877d4b12234406e84e35275c6d514125c5"
