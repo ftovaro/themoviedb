@@ -11,6 +11,7 @@ module FilterPresenter
     end
 
     def no_filter_requested
+      # I know that this is completly ugly but I did't have time to implement the pagination :(
       { json: { status: "200", message: "Loaded movies", movies: Movie.all }, status: :ok }
     end
 

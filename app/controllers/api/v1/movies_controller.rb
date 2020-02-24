@@ -5,6 +5,7 @@ module Api
       before_action :authenticate_token, only: :create
 
       def index
+        # I know that this is completly ugly but I did't have time to implement the pagination :(
         movies = Movie.all
         render json: { status: "200", message: "Loaded movies", movies: movies }, status: :ok
       end
