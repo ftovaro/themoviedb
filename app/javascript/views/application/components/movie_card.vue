@@ -11,7 +11,7 @@
       <v-img v-bind:src="`https://image.tmdb.org/t/p/w500${poster_path}`" height="194"></v-img>
       <v-card-text class="py-2">Vote count: {{vote_count}}</v-card-text>
       <v-card-actions>
-        <v-btn text color="deep-purple accent-4">More info</v-btn>
+        <v-btn text color="deep-purple accent-4" target="_blank" v-bind:href="`https://www.themoviedb.org/movie/${tmdb_id}`">More info</v-btn>
       </v-card-actions>
       <v-card-text class="py-2">{{ overview.length < 50 ? overview : overview.substring(0,50) + "..."}}</v-card-text>
     </v-card>
@@ -20,9 +20,6 @@
 
 <! Script >
 <script>
-  // import moment from 'moment';
-  // moment.locale('es');
-
   export default {
     name: 'movie-card',
     components: {},

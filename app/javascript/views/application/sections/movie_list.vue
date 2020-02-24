@@ -60,6 +60,7 @@
       <hr>
       <div class="row">
         <movie-card v-for="movie in movies" class="col"
+          v-bind:key="movie.id"
           v-bind:title="movie.title"
           v-bind:overview="movie.overview"
           v-bind:vote_count="movie.vote_count"
@@ -79,6 +80,7 @@
   import movieCard from "../components/movie_card";
   import DatePicker from 'vue2-datepicker';
   import 'vue2-datepicker/index.css';
+  import moment from "moment"
 
   export default {
     name: 'movie-list',
@@ -168,17 +170,18 @@
         })
       },
       filter(){
+        let range = null;
         if (this.select.value == "custom-range") {
-          let range = this.timeRange;
-          if (range === null) {
+          if (this.timeRange === null || this.timeRange === "" || this.timeRange[0] === null || this.timeRange[1] === null) {
             this.$parent.open("You must select a range", "error");
             return;
           }
-          console.log(range);
-          return;
+          let startDate = moment(this.timeRange[0]).format("DD-MM-YYYY");
+          let endDate = moment(this.timeRange[1]).format("DD-MM-YYYY");
+          range = `${startDate}:${endDate}`
         }
         const url = this.railsRoutes.filter_api_v1_movies_path({format: 'json'});
-        moviesService.filterMovie(url, { time: this.select.value })
+        moviesService.filterMovie(url, { time: this.select.value, range })
         .then((response) => {
           if (response.data.status == 200) {
             this.$parent.open(`Movies found: ${response.data.movies.length}`, "success");
@@ -192,7 +195,6 @@
         })
       },
       resetInputs(input){
-        console.log(input);
         if (input == "add") {
           this.movieTitle = '';
           this.movieOverview = '';

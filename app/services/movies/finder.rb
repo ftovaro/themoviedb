@@ -1,3 +1,5 @@
+require "httparty"
+
 module Movies
   class Finder
     attr_reader :tmdb_id
