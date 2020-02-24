@@ -11,7 +11,7 @@ module FilterPresenter
     end
 
     def no_filter_requested
-      render json: { status: "200", message: "Loaded movies", movies: Movie.all }, status: :ok
+      { json: { status: "200", message: "Loaded movies", movies: Movie.all }, status: :ok }
     end
 
     def filter_movies

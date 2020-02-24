@@ -12,7 +12,10 @@ class MoviesService {
   }
 
   searchMovie(url, movieData) {
+    return axios.get(encodeURI(url), { params: movieData, headers: {'X-Api-Key': 'SMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'}})
+  }
 
+  filterMovie(url, movieData) {
     return axios.get(encodeURI(url), { params: movieData, headers: {'X-Api-Key': 'SMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'}})
   }
 }

@@ -50,7 +50,7 @@
         <v-btn @click="filter" color="secondary" class="col-1 mx-5">Filter</v-btn>
       </div>
       <div class="row no-gutters">
-        <v-btn @click="init" color="warning" class="col-1 mx-5">Reset</v-btn>
+        <v-btn @click="reset" color="warning" class="col-1 mx-5">Reset</v-btn>
       </div>
       <div class="row">
         <movie-card v-for="movie in movies" class="col"
@@ -90,9 +90,9 @@
       MovieIdRules: [
         v => !!v || 'Movie ID is required'
       ],
-      select: { key: '', value: '' },
+      select: { key: '', value: undefined },
       items: [
-        { key: '', value: '' },
+        { key: '', value: undefined },
         { key: 'Tomorrow', value: 'tomorrow' },
         { key: 'Next week', value: 'next-week' },
         { key: 'Next month', value: 'next-month' },
@@ -130,6 +130,7 @@
             if (response.data.status == 200) {
               this.$parent.open("Movie created", "success");
               this.movies.push(response.data.movie);
+              this.resetInputs("add");
             }
           })
           .catch((error) => {
@@ -145,6 +146,7 @@
           if (response.data.status == 200) {
             this.$parent.open(`Movies found: ${response.data.movies.length}`, "success");
             this.movies = response.data.movies;
+            this.resetInputs("search");
           }
         })
         .catch((error) => {
@@ -153,7 +155,52 @@
         })
       },
       filter(){
-        console.log(this.select.value);
+        const url = this.railsRoutes.filter_api_v1_movies_path({format: 'json'});
+        moviesService.filterMovie(url, { time: this.select.value })
+        .then((response) => {
+          if (response.data.status == 200) {
+            this.$parent.open(`Movies found: ${response.data.movies.length}`, "success");
+            this.movies = response.data.movies;
+            this.resetInputs("filter");
+          }
+        })
+        .catch((error) => {
+          this.$parent.open(error.response.data.message, "error");
+          console.log(error);
+        })
+      },
+      resetInputs(input){
+        console.log(input);
+        if (input == "add") {
+          this.movieTitle = '';
+          this.movieOverview = '';
+          this.movieVoteCount = '';
+          this.select = { key: '', value: undefined };
+        }
+
+        if (input == "search") {
+          this.movieId = '';
+          this.select = { key: '', value: undefined };
+        }
+
+        if (input == "filter" ) {
+          this.movieId = '';
+          this.movieTitle = '';
+          this.movieOverview = '';
+          this.movieVoteCount = '';
+        }
+
+        if (input == "reset") {
+          this.movieId = '';
+          this.movieTitle = '';
+          this.movieOverview = '';
+          this.movieVoteCount = '';
+          this.select = { key: '', value: undefined };
+        }
+      },
+      reset(){
+        this.init();
+        this.resetInputs("reset");
       }
     }
   }
