@@ -1,24 +1,28 @@
-# README
+## TheMovieDBftovaro ##
+This is an API where you can store **movies** that are published in [TheMovieDB](https://www.themoviedb.org/).
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Once the movies are stored in our DB, you can easily search and filter the movies.
 
-Things you may want to cover:
+## Installation ##
 
-* Ruby version
+First of all, this app was created with **Ruby 2.6.4** and **Rails 6.0.2.1**. We use **Postgresql** as DB so get that ready before anything, also, we use **Node 10.14.1**. 
 
-* System dependencies
+After you have cloned the project, go inside the folder and run `bundle install`, then `rails db:create db:migrate db:seed`.
 
-* Configuration
+Once done, you can start the server with `rails s`
 
-* Database creation
+## Testing ##
 
-* Database initialization
+This project uses **Rspec** for testing, we have models, controllers, and services tests, don't forget to check them out!.
 
-* How to run the test suite
+To run the tests just run `rspec spec`
 
-* Services (job queues, cache servers, search engines, etc.)
+## Deployment ##
 
-* Deployment instructions
+This API is currently online and deployed in **Heroku** and can be used by anybody. 
 
-* ...
+URL: `https://moviedbftovaro.herokuapp.com/`
+
+## Wiki ##
+
+Find more about this cool API and its endpoints [here](https://github.com/ftovaro/themoviedb/wiki)
