@@ -15,6 +15,7 @@
     "vue-loader": "^15.9.0",
     "vue-template-compiler": "^2.6.11",
     "vue-toast-notification": "^0.0.3",
+    "vue2-datepicker": "^3.3.1",
     "vuetify": "^2.2.14"
   },
   "version": "0.1.0",

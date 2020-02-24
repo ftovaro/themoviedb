@@ -14,44 +14,50 @@
         </v-form>
         <v-btn @click="addMovie" color="success" class="col-1 mx-5">Agregar</v-btn>
       </div>
+      <hr>
       <div class="row no-gutters">
         <v-form ref="form" class="col-12 row no-gutters">
           <v-text-field
             v-model="movieTitle"
-            label="Movie Title"
+            label="Title"
             class="p-0 col-2 mr-2"
           ></v-text-field>
           <v-text-field
             v-model="movieOverview"
-            label="Movie Overview"
+            label="Overview"
             class="p-0 col-2 mx-2"
           ></v-text-field>
           <v-text-field
             v-model="movieVoteCount"
-            label="Movie Vote Count"
+            label="Vote Count"
             class="p-0 col-2 mx-2"
             type="number"
           ></v-text-field>
           <v-btn @click="searchMovie" color="primary" class="col-1 mx-5">Buscar</v-btn>
         </v-form>
       </div>
+      <hr>
       <div class="row no-gutters">
         <v-select
           v-model="select"
-          :items="items"
+          v-bind:items="items"
           item-text="key"
           item-value="value"
           label="Filter"
-          class="col-3"
+          class="col-3 mr-3"
+          hint="Select a time"
           persistent-hint
           return-object
           single-line
         ></v-select>
+        <date-picker class="mx-5 col-2" v-show="timeRangeShow" v-model="timeRange" range></date-picker>
         <v-btn @click="filter" color="secondary" class="col-1 mx-5">Filter</v-btn>
       </div>
+      <hr>
       <div class="row no-gutters">
         <v-btn @click="reset" color="warning" class="col-1 mx-5">Reset</v-btn>
       </div>
+      <hr>
       <div class="row">
         <movie-card v-for="movie in movies" class="col"
           v-bind:title="movie.title"
@@ -71,11 +77,14 @@
   import Routes from 'routes.js.erb';
   import moviesService from "../services/movies_service";
   import movieCard from "../components/movie_card";
+  import DatePicker from 'vue2-datepicker';
+  import 'vue2-datepicker/index.css';
 
   export default {
     name: 'movie-list',
     components: {
-      'movie-card': movieCard
+      'movie-card': movieCard,
+      DatePicker
     },
     props: {},
     mounted() {
@@ -90,7 +99,7 @@
       MovieIdRules: [
         v => !!v || 'Movie ID is required'
       ],
-      select: { key: '', value: undefined },
+      select: {  },
       items: [
         { key: '', value: undefined },
         { key: 'Tomorrow', value: 'tomorrow' },
@@ -98,6 +107,8 @@
         { key: 'Next month', value: 'next-month' },
         { key: 'Custom range', value: 'custom-range' },
       ],
+      timeRange: null,
+      timeRangeShow: false
     }),
     computed: {
       railsRoutes() {
@@ -106,8 +117,10 @@
     },
     watch: {
       select(newValue) {
-        if (newValue) {
-          console.log(newValue.value);
+        if (newValue.value && newValue.value == "custom-range") {
+          this.timeRangeShow = true;
+        } else {
+          this.timeRangeShow = false;
         }
       },
     },
@@ -155,6 +168,15 @@
         })
       },
       filter(){
+        if (this.select.value == "custom-range") {
+          let range = this.timeRange;
+          if (range === null) {
+            this.$parent.open("You must select a range", "error");
+            return;
+          }
+          console.log(range);
+          return;
+        }
         const url = this.railsRoutes.filter_api_v1_movies_path({format: 'json'});
         moviesService.filterMovie(url, { time: this.select.value })
         .then((response) => {
