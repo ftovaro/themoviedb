@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const el = document.body.querySelector('#application-layout');
   const vm = new Vue({
     el,
+    vuetify: new Vuetify(),
     components: {
       'movie-list': movieList
     },
@@ -24,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
           this.$toast.open({
               message: message,
               type: type,
-              duration: 5000,
+              duration: 2000,
               dismissible: true
           })
       }

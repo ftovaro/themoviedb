@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe Api::V1::SearchController do
-  describe "#create" do
+  describe "#index" do
     let!(:movie) { create(:movie) }
 
     context "when send a valid payload" do

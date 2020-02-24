@@ -1,52 +1,68 @@
 <! Template >
 <template>
   <section>
-    <div class="row no-gutters">
-      <v-form ref="form" class="col-2" lazy-validation>
-        <v-text-field
-          v-model="movieId"
-          label="Movie ID"
-          :rules="MovieIdRules"
-          class="p-0"
-          required
-        ></v-text-field>
-      </v-form>
-      <v-btn @click="addMovie" class="primary col-1 mx-5">Agregar</v-btn>
-    </div>
-    <div class="row no-gutters">
-      <v-form ref="form" class="col-12 row no-gutters">
-        <v-text-field
-          v-model="movieTitle"
-          label="Movie Title"
-          class="p-0 col-2 mx-2"
-        ></v-text-field>
-        <v-text-field
-          v-model="movieOverview"
-          label="Movie Overview"
-          class="p-0 col-2 mx-2"
-        ></v-text-field>
-        <v-text-field
-          v-model="movieVoteCount"
-          label="Movie Vote Count"
-          class="p-0 col-2 mx-2"
-          type="number"
-        ></v-text-field>
-        <v-btn @click="searchMovie" class="secondary col-1 mx-5">Buscar</v-btn>
-      </v-form>
-    </div>
-    <div class="row no-gutters">
-      <v-btn @click="init" class="warning col-1 mx-5">Reset</v-btn>
-    </div>
-    <div class="row">
-      <movie-card v-for="movie in movies" class="col"
-        v-bind:title="movie.title"
-        v-bind:overview="movie.overview"
-        v-bind:vote_count="movie.vote_count"
-        v-bind:poster_path="movie.poster_path"
-        v-bind:release_date="movie.release_date"
-        v-bind:tmdb_id="movie.tmdb_id">
-      </movie-card>
-    </div>
+    <v-app>
+      <div class="row no-gutters">
+        <v-form ref="form" class="col-2" lazy-validation>
+          <v-text-field
+            v-model="movieId"
+            label="Movie ID"
+            :rules="MovieIdRules"
+            class="p-0"
+            required
+          ></v-text-field>
+        </v-form>
+        <v-btn @click="addMovie" color="success" class="col-1 mx-5">Agregar</v-btn>
+      </div>
+      <div class="row no-gutters">
+        <v-form ref="form" class="col-12 row no-gutters">
+          <v-text-field
+            v-model="movieTitle"
+            label="Movie Title"
+            class="p-0 col-2 mr-2"
+          ></v-text-field>
+          <v-text-field
+            v-model="movieOverview"
+            label="Movie Overview"
+            class="p-0 col-2 mx-2"
+          ></v-text-field>
+          <v-text-field
+            v-model="movieVoteCount"
+            label="Movie Vote Count"
+            class="p-0 col-2 mx-2"
+            type="number"
+          ></v-text-field>
+          <v-btn @click="searchMovie" color="primary" class="col-1 mx-5">Buscar</v-btn>
+        </v-form>
+      </div>
+      <div class="row no-gutters">
+        <v-select
+          v-model="select"
+          :items="items"
+          item-text="key"
+          item-value="value"
+          label="Filter"
+          class="col-3"
+          persistent-hint
+          return-object
+          single-line
+        ></v-select>
+        <v-btn @click="filter" color="secondary" class="col-1 mx-5">Filter</v-btn>
+      </div>
+      <div class="row no-gutters">
+        <v-btn @click="init" color="warning" class="col-1 mx-5">Reset</v-btn>
+      </div>
+      <div class="row">
+        <movie-card v-for="movie in movies" class="col"
+          v-bind:title="movie.title"
+          v-bind:overview="movie.overview"
+          v-bind:vote_count="movie.vote_count"
+          v-bind:poster_path="movie.poster_path"
+          v-bind:release_date="movie.release_date"
+          v-bind:tmdb_id="movie.tmdb_id">
+        </movie-card>
+      </div>
+    </v-app>
   </section>
 </template>
 
@@ -74,13 +90,27 @@
       MovieIdRules: [
         v => !!v || 'Movie ID is required'
       ],
+      select: { key: '', value: '' },
+      items: [
+        { key: '', value: '' },
+        { key: 'Tomorrow', value: 'tomorrow' },
+        { key: 'Next week', value: 'next-week' },
+        { key: 'Next month', value: 'next-month' },
+        { key: 'Custom range', value: 'custom-range' },
+      ],
     }),
     computed: {
       railsRoutes() {
         return Routes;
       },
     },
-    beforeMount(){},
+    watch: {
+      select(newValue) {
+        if (newValue) {
+          console.log(newValue.value);
+        }
+      },
+    },
     methods: {
       init(){
         const url = this.railsRoutes.api_v1_movies_path({format: 'json'});
@@ -121,6 +151,9 @@
           this.$parent.open(error.response.data.message, "error");
           console.log(error);
         })
+      },
+      filter(){
+        console.log(this.select.value);
       }
     }
   }
