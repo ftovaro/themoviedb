@@ -8,7 +8,7 @@
     "@rails/webpacker": "^4.2.2",
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "rails-erb-loader": "^5.5.2",
     "sass-loader": "^8.0.2",
     "turbolinks": "^5.2.0",
